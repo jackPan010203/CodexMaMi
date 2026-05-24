@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">CodexMaMi mark</title>
+  <desc id="desc">A soft geometric mark for CodexMaMi.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#8D84FF"/>
+      <stop offset="55%" stop-color="#55D4B2"/>
+      <stop offset="100%" stop-color="#9FD8FF"/>
+    </linearGradient>
+    <linearGradient id="stroke" x1="0%" x2="100%" y1="10%" y2="100%">
+      <stop offset="0%" stop-color="#0B141C"/>
+      <stop offset="100%" stop-color="#112532"/>
+    </linearGradient>
+  </defs>
+  <rect x="10" y="10" width="108" height="108" rx="30" fill="url(#bg)"/>
+  <path d="M34 44c0-5.523 4.477-10 10-10h24c7.18 0 13 5.82 13 13v8" fill="none" stroke="url(#stroke)" stroke-linecap="round" stroke-linejoin="round" stroke-width="10"/>
+  <path d="M94 84c0 5.523-4.477 10-10 10H60c-7.18 0-13-5.82-13-13v-8" fill="none" stroke="url(#stroke)" stroke-linecap="round" stroke-linejoin="round" stroke-width="10"/>
+  <circle cx="49" cy="63" r="8" fill="#0B141C"/>
+  <circle cx="79" cy="65" r="8" fill="#0B141C"/>
+</svg>

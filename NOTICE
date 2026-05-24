@@ -1,0 +1,8 @@
+CodexMaMi
+
+This project is an independent local-first implementation inspired by the public AiMaMi project by borawong.
+
+AiMaMi repository:
+https://github.com/borawong/AiMaMi
+
+CodexMaMi uses independent branding to avoid confusion with the original upstream project. Future imports of upstream Apache-2.0 code should preserve the original copyright and license notices.

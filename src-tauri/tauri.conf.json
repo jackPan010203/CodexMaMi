@@ -1,0 +1,38 @@
+﻿{
+    "$schema":  "https://schema.tauri.app/config/2",
+    "productName":  "CodexMaMi",
+    "version":  "0.1.0",
+    "identifier":  "com.codexmami.app",
+    "build":  {
+                  "beforeDevCommand":  "",
+                  "beforeBuildCommand":  "",
+                  "frontendDist":  "../public",
+                  "devUrl":  "http://127.0.0.1:4173"
+              },
+    "app":  {
+                "windows":  [
+                                {
+                                    "title":  "CodexMaMi",
+                                    "width":  1280,
+                                    "height":  820,
+                                    "minWidth":  980,
+                                    "minHeight":  680,
+                                    "resizable":  true
+                                }
+                            ],
+                "security":  {
+                                 "csp":  null
+                             }
+            },
+    "bundle":  {
+                   "active":  true,
+                   "targets":  [
+                                   "msi",
+                                   "nsis"
+                               ],
+                   "publisher":  "CodexMaMi",
+                   "category":  "DeveloperTool",
+                   "shortDescription":  "Local-first Codex companion",
+                   "longDescription":  "CodexMaMi helps manage local Codex configuration, accounts, sessions, providers, MCP servers, skills and backups."
+               }
+}

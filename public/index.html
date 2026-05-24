@@ -1,0 +1,723 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CodexMaMi</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <svg aria-hidden="true" class="sprite-defs">
+      <symbol id="i-dashboard" viewBox="0 0 24 24">
+        <path d="M4 4h7v7H4zM13 4h7v5h-7zM13 11h7v9h-7zM4 13h7v7H4z" />
+      </symbol>
+      <symbol id="i-accounts" viewBox="0 0 24 24">
+        <path d="M16 19a4 4 0 0 0-8 0" />
+        <circle cx="12" cy="8" r="3.5" />
+        <path d="M6 18H4a3 3 0 0 1 3-3m11 3h2a3 3 0 0 0-3-3" />
+      </symbol>
+      <symbol id="i-sessions" viewBox="0 0 24 24">
+        <path d="M6 5h12a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H10l-4 3v-3H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z" />
+      </symbol>
+      <symbol id="i-providers" viewBox="0 0 24 24">
+        <path d="M7 7h10M7 12h10M7 17h6" />
+        <circle cx="17" cy="17" r="3" />
+      </symbol>
+      <symbol id="i-mcp" viewBox="0 0 24 24">
+        <rect x="4" y="5" width="16" height="14" rx="2" />
+        <path d="M8 9h8M8 13h8" />
+      </symbol>
+      <symbol id="i-skills" viewBox="0 0 24 24">
+        <path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z" />
+      </symbol>
+      <symbol id="i-backups" viewBox="0 0 24 24">
+        <path d="M20 12a8 8 0 1 1-2.4-5.7" />
+        <path d="M20 4v6h-6" />
+      </symbol>
+      <symbol id="i-settings" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="3" />
+        <path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1L7 17M17 7l2.1-2.1" />
+      </symbol>
+      <symbol id="i-tools" viewBox="0 0 24 24">
+        <path d="M14.7 6.3a4 4 0 0 0-5 5L4 17v3h3l5.7-5.7a4 4 0 0 0 5-5l-2.4 2.4-3-3z" />
+      </symbol>
+      <symbol id="i-refresh" viewBox="0 0 24 24">
+        <path d="M20 11a8 8 0 1 0 2 5.3" />
+        <path d="M20 4v7h-7" />
+      </symbol>
+      <symbol id="i-copy" viewBox="0 0 24 24">
+        <rect x="9" y="9" width="11" height="11" rx="2" />
+        <path d="M7 15H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v1" />
+      </symbol>
+      <symbol id="i-arrow" viewBox="0 0 24 24">
+        <path d="M5 12h14M13 6l6 6-6 6" />
+      </symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24">
+        <path d="M12 3l7 3v5c0 4.7-2.5 8-7 10-4.5-2-7-5.3-7-10V6z" />
+        <path d="M9 12l2 2 4-4" />
+      </symbol>
+    </svg>
+
+    <div id="app">
+      <aside class="sidebar">
+        <div class="brand">
+          <img class="brand-logo" src="/brand-mark.svg" alt="CodexMaMi" />
+          <div class="brand-copy">
+            <strong>CodexMaMi</strong>
+            <span>让 Codex 更清楚，也更安心</span>
+          </div>
+        </div>
+
+        <nav class="nav" aria-label="Primary">
+          <button class="nav-item active" data-view="dashboard">
+            <svg class="nav-icon"><use href="#i-dashboard"></use></svg>
+            <span>总览</span>
+          </button>
+          <button class="nav-item" data-view="accounts">
+            <svg class="nav-icon"><use href="#i-accounts"></use></svg>
+            <span>账号</span>
+          </button>
+          <button class="nav-item" data-view="sessions">
+            <svg class="nav-icon"><use href="#i-sessions"></use></svg>
+            <span>线程</span>
+          </button>
+          <button class="nav-item" data-view="providers">
+            <svg class="nav-icon"><use href="#i-providers"></use></svg>
+            <span>模型路由</span>
+          </button>
+          <button class="nav-item" data-view="mcp">
+            <svg class="nav-icon"><use href="#i-mcp"></use></svg>
+            <span>MCP</span>
+          </button>
+          <button class="nav-item" data-view="skills">
+            <svg class="nav-icon"><use href="#i-skills"></use></svg>
+            <span>Skills</span>
+          </button>
+          <button class="nav-item" data-view="backups">
+            <svg class="nav-icon"><use href="#i-backups"></use></svg>
+            <span>备份</span>
+          </button>
+          <button class="nav-item" data-view="maintenance">
+            <svg class="nav-icon"><use href="#i-tools"></use></svg>
+            <span>维护</span>
+          </button>
+          <button class="nav-item" data-view="settings">
+            <svg class="nav-icon"><use href="#i-settings"></use></svg>
+            <span>设置</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-note">
+          <span class="pill safe">
+            <svg class="pill-icon"><use href="#i-shield"></use></svg>
+            先备份，再应用
+          </span>
+          <div class="sidebar-status">
+            <div class="status-dot" id="server-status"></div>
+            <div>
+              <strong id="server-status-text">连接中</strong>
+              <span>本地服务状态</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div class="topbar-copy">
+            <span class="eyebrow">Windows 本地工具</span>
+            <h1 id="view-title">总览</h1>
+            <p id="view-subtitle">把配置、线程、路由和安全备份放在同一个清楚的工作台里。</p>
+          </div>
+          <div class="top-actions">
+            <button class="ghost-button" id="refresh-btn">
+              <svg class="button-icon"><use href="#i-refresh"></use></svg>
+              刷新
+            </button>
+            <button class="primary-button" id="backup-now-btn">创建备份</button>
+          </div>
+        </header>
+
+        <section class="view active" id="view-dashboard">
+          <section class="hero-band">
+            <div class="hero-copy">
+              <span class="eyebrow">欢迎回来</span>
+              <h2>先看清，再动手</h2>
+              <p>CodexMaMi 会先读取当前 Codex 配置，遮蔽敏感信息，并在每次写入前自动备份。小白也能放心试，不容易把环境改乱。</p>
+              <div class="hero-actions">
+                <button class="primary-button" id="capture-account-inline-btn">捕获当前账号</button>
+                <button class="ghost-button" data-goto="providers">去配置模型路由</button>
+                <button class="ghost-button" data-goto="sessions">查看最近线程</button>
+              </div>
+            </div>
+            <div class="hero-stack">
+              <div class="hero-card">
+                <span class="card-label">当前节奏</span>
+                <strong id="hero-config-state">正在识别本机 Codex</strong>
+                <p id="hero-config-note">稍等片刻，信息会自动出现。</p>
+              </div>
+              <div class="hero-card tone-warm">
+                <span class="card-label">安全原则</span>
+                <ul class="mini-list">
+                  <li>敏感信息默认遮蔽</li>
+                  <li>应用前总会预览差异</li>
+                  <li>恢复前再备份一次</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <section class="metric-grid">
+            <article class="metric-card metric-accent-teal">
+              <span>Codex 配置</span>
+              <strong id="metric-config">检测中</strong>
+              <small id="metric-config-path"></small>
+            </article>
+            <article class="metric-card metric-accent-amber">
+              <span>账号档案</span>
+              <strong id="metric-accounts">0</strong>
+              <small>你保存过的本机配置快照</small>
+            </article>
+            <article class="metric-card metric-accent-coral">
+              <span>线程文件</span>
+              <strong id="metric-sessions">0</strong>
+              <small>只读扫描，不删除原始会话</small>
+            </article>
+            <article class="metric-card metric-accent-sky">
+              <span>模型 Provider</span>
+              <strong id="metric-providers">0</strong>
+              <small>支持预览路由，再决定是否应用</small>
+            </article>
+          </section>
+
+          <section class="split">
+            <article class="surface">
+              <div class="surface-head">
+                <div>
+                  <span class="eyebrow">当前环境</span>
+                  <h2>配置摘要</h2>
+                </div>
+                <button class="icon-button" data-copy="config" title="复制摘要">
+                  <svg class="button-icon"><use href="#i-copy"></use></svg>
+                </button>
+              </div>
+              <dl class="summary-list" id="config-summary"></dl>
+            </article>
+
+            <article class="surface">
+              <div class="surface-head">
+                <div>
+                  <span class="eyebrow">对新手更友好</span>
+                  <h2>建议顺序</h2>
+                </div>
+              </div>
+              <div class="guide-list">
+                <div class="guide-step">
+                  <strong>1. 先捕获当前账号</strong>
+                  <p>把你现在的 Codex 配置保存成一个可回滚档案，后面切换更安心。</p>
+                </div>
+                <div class="guide-step">
+                  <strong>2. 再添加模型 Provider</strong>
+                  <p>先测试连通性，再决定是否把路由写回 Codex。</p>
+                </div>
+                <div class="guide-step">
+                  <strong>3. 最后再应用更改</strong>
+                  <p>每次都先看差异预览，不清楚就先别应用。</p>
+                </div>
+              </div>
+            </article>
+          </section>
+
+          <section class="split">
+            <article class="surface">
+              <div class="surface-head">
+                <div>
+                  <span class="eyebrow">最近活动</span>
+                  <h2>最新线程</h2>
+                </div>
+                <button class="ghost-button" data-goto="sessions">全部查看</button>
+              </div>
+              <div class="stack-list" id="recent-sessions"></div>
+            </article>
+
+            <article class="surface">
+              <div class="surface-head">
+                <div>
+                  <span class="eyebrow">随时恢复</span>
+                  <h2>最近备份</h2>
+                </div>
+                <button class="ghost-button" data-goto="backups">打开备份页</button>
+              </div>
+              <div class="stack-list" id="recent-backups"></div>
+            </article>
+          </section>
+
+          <section class="surface">
+            <div class="surface-head">
+              <div>
+                <span class="eyebrow">完整内容</span>
+                <h2>遮蔽后的 config.toml</h2>
+              </div>
+              <button class="icon-button" data-copy="config-raw" title="复制配置">
+                <svg class="button-icon"><use href="#i-copy"></use></svg>
+              </button>
+            </div>
+            <pre class="code-box" id="config-raw"></pre>
+          </section>
+        </section>
+
+        <section class="view" id="view-accounts">
+          <div class="section-head">
+            <div>
+              <span class="eyebrow">账号管理</span>
+              <h2>把当前 Codex 配置保存成安全档案</h2>
+              <p>适合先做备份，再慢慢试切换。每次应用前都会先生成一份新的备份。</p>
+            </div>
+            <div class="item-actions compact">
+              <button class="ghost-button" id="import-account-btn">导入账号包</button>
+              <button class="primary-button" id="capture-account-btn">捕获当前配置</button>
+            </div>
+          </div>
+          <div class="surface">
+            <div class="surface-head">
+              <div>
+                <span class="eyebrow">导入与导出</span>
+                <h2>账号包工具</h2>
+              </div>
+            </div>
+            <form class="form" id="account-import-form">
+              <label>账号包 JSON<textarea id="account-import-json" rows="10" placeholder='{"schema":"codexmami-account-bundle@1", ...}'></textarea></label>
+              <div class="form-actions">
+                <button type="submit" class="primary-button">导入到账号档案</button>
+                <button type="button" class="ghost-button" id="account-import-clear-btn">清空</button>
+              </div>
+            </form>
+          </div>
+          <div class="split wide">
+            <article class="surface">
+              <div class="surface-head">
+                <div>
+                  <span class="eyebrow">账号档案</span>
+                  <h2>已保存的本机授权账号</h2>
+                </div>
+              </div>
+              <div class="grid-list" id="accounts-list"></div>
+            </article>
+            <article class="surface" id="account-editor"></article>
+          </div>
+        </section>
+
+        <section class="view" id="view-sessions">
+          <div class="section-head">
+            <div>
+              <span class="eyebrow">线程管理</span>
+              <h2>把本机会话整理得更清楚</h2>
+              <p>收藏和归档只影响 CodexMaMi 的展示，不会删除原始文件。</p>
+            </div>
+            <div class="filter-row">
+              <input class="search" id="session-search" placeholder="搜索标题、项目路径、预览内容" />
+              <select class="filter-select" id="session-status-filter">
+                <option value="active">未归档</option>
+                <option value="all">全部</option>
+                <option value="favorite">已收藏</option>
+                <option value="archived">已归档</option>
+              </select>
+              <select class="filter-select" id="session-project-filter">
+                <option value="">全部项目</option>
+              </select>
+            </div>
+          </div>
+          <div class="metric-strip" id="session-summary"></div>
+          <div class="split wide">
+            <article class="surface">
+              <div class="surface-head">
+                <div>
+                  <span class="eyebrow">项目分组</span>
+                  <h2>按项目继续回看</h2>
+                </div>
+              </div>
+              <div class="grid-list" id="session-groups"></div>
+            </article>
+            <article class="surface table-surface">
+              <table>
+                <thead>
+                  <tr>
+                    <th>标题</th>
+                    <th>项目路径</th>
+                    <th>更新时间</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="sessions-table"></tbody>
+              </table>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-providers">
+          <div class="section-head">
+            <div>
+              <span class="eyebrow">模型路由</span>
+              <h2>先测试，再把模型接进 Codex</h2>
+              <p>每个 Provider 都支持连通性检查、差异预览和确认应用，尽量少让小白踩坑。</p>
+            </div>
+            <button class="primary-button" id="new-provider-btn">新增 Provider</button>
+          </div>
+          <div class="surface provider-banner" id="provider-banner"></div>
+          <div class="split wide">
+            <article class="surface">
+              <div class="surface-head">
+                <div>
+                  <span class="eyebrow">已保存的来源</span>
+                  <h2>Provider 列表</h2>
+                </div>
+              </div>
+              <div class="grid-list" id="providers-list"></div>
+            </article>
+            <article class="surface">
+              <div class="surface-head">
+                <div>
+                  <span class="eyebrow">编辑面板</span>
+                  <h2>Provider 表单</h2>
+                </div>
+              </div>
+              <form class="form" id="provider-form">
+                <input type="hidden" id="provider-id" />
+                <label>名称<input id="provider-name" required placeholder="例如 OpenAI / OpenRouter / Local" /></label>
+                <label>Base URL<input id="provider-base-url" required placeholder="https://api.openai.com/v1" /></label>
+                <label>API Key<input id="provider-api-key" type="password" placeholder="sk-..." /></label>
+                <label>模型列表<textarea id="provider-models" rows="4" placeholder="gpt-5&#10;gpt-5-mini"></textarea></label>
+                <label>默认模型<input id="provider-default-model" placeholder="例如 gpt-5" /></label>
+                <label>备注<textarea id="provider-note" rows="3" placeholder="给未来的自己留一点说明"></textarea></label>
+                <label class="check-row"><input id="provider-enabled" type="checkbox" checked /> 启用这个 Provider</label>
+                <div class="form-actions">
+                  <button type="submit" class="primary-button">保存</button>
+                  <button type="button" class="ghost-button" id="provider-clear-btn">清空</button>
+                </div>
+              </form>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-mcp">
+          <div class="section-head">
+            <div>
+              <span class="eyebrow">MCP 管理</span>
+              <h2>添加、检查和移除 Codex 的扩展服务</h2>
+              <p>所有修改都会先展示差异，再备份当前 config.toml，最后才写入。</p>
+            </div>
+            <button class="primary-button" id="new-mcp-btn">新增 MCP</button>
+          </div>
+          <div class="metric-strip" id="mcp-summary"></div>
+          <div class="split wide">
+            <article class="surface">
+              <div class="surface-head">
+                <div>
+                  <span class="eyebrow">当前配置</span>
+                  <h2>MCP 服务列表</h2>
+                </div>
+              </div>
+              <div class="grid-list" id="mcp-list"></div>
+            </article>
+            <article class="surface">
+              <div class="surface-head">
+                <div>
+                  <span class="eyebrow">编辑面板</span>
+                  <h2>MCP 表单</h2>
+                </div>
+              </div>
+              <form class="form" id="mcp-form">
+                <label>服务名称<input id="mcp-name" required placeholder="例如 awesun-mcp-server" /></label>
+                <label>Command<input id="mcp-command" required placeholder="C:\Program Files\...\server.exe" /></label>
+                <label>工作目录 cwd<input id="mcp-cwd" placeholder="可留空" /></label>
+                <label>参数 args<textarea id="mcp-args" rows="3" placeholder="每行一个参数，或用逗号分隔"></textarea></label>
+                <label>环境变量 env<textarea id="mcp-env" rows="5" placeholder="KEY=value&#10;API_TOKEN=sk-..."></textarea></label>
+                <label class="check-row"><input id="mcp-enabled" type="checkbox" checked /> 启用这个 MCP</label>
+                <div class="form-actions">
+                  <button type="submit" class="primary-button">预览并保存</button>
+                  <button type="button" class="ghost-button" id="mcp-clear-btn">清空</button>
+                </div>
+              </form>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-skills">
+          <div class="section-head">
+            <div>
+              <span class="eyebrow">Skills</span>
+              <h2>把本机技能目录看得更明白</h2>
+              <p>现在不仅能查看，还能导入本地 Skill、做备份、恢复，以及安全删除自己管理的 Skill。</p>
+            </div>
+            <button class="primary-button" id="new-skill-btn">导入 Skill</button>
+          </div>
+          <div class="metric-strip" id="skills-summary"></div>
+          <div class="split wide">
+            <article class="surface">
+              <div class="surface-head">
+                <div>
+                  <span class="eyebrow">本机技能</span>
+                  <h2>Skill 列表</h2>
+                </div>
+                <div class="item-actions compact">
+                  <button class="ghost-button" id="backup-skills-btn">备份 Skills</button>
+                </div>
+              </div>
+              <div class="grid-list" id="skills-list"></div>
+            </article>
+            <article class="surface">
+              <div class="surface-head">
+                <div>
+                  <span class="eyebrow">恢复与导入</span>
+                  <h2>Skill 工具台</h2>
+                </div>
+              </div>
+              <form class="form" id="skill-form">
+                <label>Skill 名称<input id="skill-name" placeholder="例如 my-local-skill" required /></label>
+                <label>SKILL.md 内容<textarea id="skill-content" rows="12" placeholder="# My Skill&#10;&#10;description: ..."></textarea></label>
+                <div class="form-actions">
+                  <button type="submit" class="primary-button">导入到本机</button>
+                  <button type="button" class="ghost-button" id="skill-clear-btn">清空</button>
+                </div>
+              </form>
+              <div class="surface-head nested">
+                <div>
+                  <span class="eyebrow">Skill 备份</span>
+                  <h2>恢复点</h2>
+                </div>
+              </div>
+              <div class="grid-list" id="skill-backups-list"></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="view" id="view-backups">
+          <div class="section-head">
+            <div>
+              <span class="eyebrow">备份中心</span>
+              <h2>每一次重要修改，都可以从这里恢复</h2>
+              <p>恢复前还会再备份一次当前配置，所以回退也更稳。</p>
+            </div>
+          </div>
+          <div class="surface table-surface">
+            <table>
+              <thead>
+                <tr>
+                  <th>时间</th>
+                  <th>原因</th>
+                  <th>大小</th>
+                  <th>路径</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="backups-table"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="view" id="view-maintenance">
+          <div class="section-head">
+            <div>
+              <span class="eyebrow">维护工具</span>
+              <h2>先诊断，再处理本地运行问题</h2>
+              <p>这里放的是低风险维护动作。会影响 Codex 配置的操作仍然需要确认。</p>
+            </div>
+            <div class="item-actions compact">
+              <button class="ghost-button" id="run-publish-safety-btn">公开前扫描</button>
+              <button class="primary-button" id="run-diagnose-btn">运行诊断</button>
+            </div>
+          </div>
+
+          <div class="metric-strip" id="diagnose-summary"></div>
+
+          <div class="split">
+            <article class="surface">
+              <div class="surface-head">
+                <div>
+                  <span class="eyebrow">系统检查</span>
+                  <h2>诊断结果</h2>
+                </div>
+              </div>
+              <div class="grid-list" id="diagnose-list"></div>
+            </article>
+
+            <article class="surface">
+              <div class="surface-head">
+                <div>
+                  <span class="eyebrow">快捷维护</span>
+                  <h2>常用动作</h2>
+                </div>
+              </div>
+              <div class="guide-list">
+                <div class="guide-step">
+                  <strong>创建当前配置备份</strong>
+                  <p>在尝试任何修改前，先把当前 config.toml 存一份。</p>
+                  <button class="ghost-button" id="maintenance-backup-btn">创建备份</button>
+                </div>
+                <div class="guide-step">
+                  <strong>禁用 CodexMaMi 路由块</strong>
+                  <p>如果路由配置导致 Codex 异常，可以移除 CodexMaMi 管理的路由块。</p>
+                  <button class="danger-button" id="disable-route-btn">预览并禁用</button>
+                </div>
+                <div class="guide-step">
+                  <strong>清理导出文件</strong>
+                  <p>只清理 CodexMaMi 自己生成的会话导出，不碰 Codex 原始会话。</p>
+                  <button class="ghost-button" id="cleanup-exports-btn">查看并清理</button>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <article class="surface">
+            <div class="surface-head">
+              <div>
+                <span class="eyebrow">进程提示</span>
+                <h2>Codex 相关进程</h2>
+              </div>
+            </div>
+            <div class="grid-list" id="codex-process-list"></div>
+          </article>
+
+          <article class="surface">
+            <div class="surface-head">
+              <div>
+                <span class="eyebrow">发布安全</span>
+                <h2>公开到 GitHub 前检查</h2>
+              </div>
+            </div>
+            <div class="grid-list" id="publish-safety-list"></div>
+          </article>
+        </section>
+
+        <section class="view" id="view-settings">
+          <div class="section-head">
+            <div>
+              <span class="eyebrow">设置与说明</span>
+              <h2>搞清楚项目边界，比盲目点按钮更重要</h2>
+              <p>这一版还是本地 Web 应用，但视觉和交互已经按桌面产品的方向在收敛。</p>
+            </div>
+          </div>
+          <div class="split wide">
+            <article class="surface">
+              <div class="surface-head">
+                <div>
+                  <span class="eyebrow">本地路径</span>
+                  <h2>关键目录</h2>
+                </div>
+              </div>
+              <dl class="summary-list" id="path-summary"></dl>
+              <div class="grid-list compact" id="path-actions"></div>
+            </article>
+            <article class="surface">
+              <div class="surface-head">
+                <div>
+                  <span class="eyebrow">本地偏好</span>
+                  <h2>让界面更符合你的习惯</h2>
+                </div>
+              </div>
+              <form class="form" id="preferences-form">
+                <label>启动默认页面
+                  <select id="pref-start-view">
+                    <option value="dashboard">总览</option>
+                    <option value="accounts">账号</option>
+                    <option value="sessions">线程</option>
+                    <option value="providers">模型路由</option>
+                    <option value="mcp">MCP</option>
+                    <option value="skills">Skills</option>
+                    <option value="backups">备份</option>
+                    <option value="maintenance">维护</option>
+                    <option value="settings">设置</option>
+                  </select>
+                </label>
+                <label>自动刷新间隔（秒）
+                  <input id="pref-auto-refresh" type="number" min="0" max="300" step="5" />
+                </label>
+                <label class="check-row"><input id="pref-group-sessions" type="checkbox" /> 线程页默认按项目分组</label>
+                <label class="check-row"><input id="pref-show-archived" type="checkbox" /> 在线程页默认显示已归档</label>
+                <label>最新公开版本
+                  <input id="pref-release-version" placeholder="例如 0.2.0" />
+                </label>
+                <label>GitHub 仓库
+                  <input id="pref-release-repo" placeholder="例如 yourname/CodexMaMi" />
+                </label>
+                <label>Release API Base URL
+                  <input id="pref-release-api-base" placeholder="默认 https://api.github.com" />
+                </label>
+                <label>版本说明
+                  <textarea id="pref-release-notes" rows="4" placeholder="给自己或协作者记录本次公开版本的变化"></textarea>
+                </label>
+                <div class="form-actions">
+                  <button type="submit" class="primary-button">保存偏好</button>
+                  <button type="button" class="ghost-button" id="refresh-release-btn">刷新发布状态</button>
+                </div>
+              </form>
+              <div class="surface-head nested">
+                <div>
+                  <span class="eyebrow">更新检查</span>
+                  <h2>当前发布状态</h2>
+                </div>
+              </div>
+              <div class="grid-list compact" id="release-status"></div>
+              <div class="surface-head nested">
+                <div>
+                  <span class="eyebrow">安装环境</span>
+                  <h2>Windows 打包预检查</h2>
+                </div>
+              </div>
+              <div class="grid-list compact" id="release-environment"></div>
+              <div class="surface-head nested">
+                <div>
+                  <span class="eyebrow">安装产物</span>
+                  <h2>已生成的安装包</h2>
+                </div>
+              </div>
+              <div class="grid-list compact" id="release-artifacts"></div>
+              <div class="surface-head nested">
+                <div>
+                  <span class="eyebrow">Release Draft</span>
+                  <h2 id="release-draft-title">CodexMaMi v0.1.0</h2>
+                </div>
+                <button type="button" class="ghost-button" id="copy-release-draft-btn">复制草稿</button>
+              </div>
+              <pre class="code-box" id="release-draft-body"></pre>
+              <div class="guide-list compact">
+                <div class="guide-step">
+                  <strong>现在已经有 UI</strong>
+                  <p>适合你本地测试、迭代界面、继续补功能。</p>
+                </div>
+                <div class="guide-step">
+                  <strong>下一步建议做桌面打包</strong>
+                  <p>等 Rust/Cargo 和 Tauri 环境补齐后，再做真正的一键安装版。</p>
+                </div>
+                <div class="guide-step">
+                  <strong>公开前先检查本地数据</strong>
+                  <p>确认 `.codexmami-dev` 和真实私钥没有被提交。</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <dialog id="modal">
+      <form method="dialog" class="modal-card">
+        <div class="modal-head">
+          <h2 id="modal-title">确认</h2>
+          <button class="icon-button" value="cancel">×</button>
+        </div>
+        <div id="modal-body"></div>
+        <menu class="modal-actions">
+          <button value="cancel" class="ghost-button">取消</button>
+          <button value="confirm" class="danger-button" id="modal-confirm">确认</button>
+        </menu>
+      </form>
+    </dialog>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
