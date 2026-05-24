@@ -49,7 +49,25 @@ src-tauri\target\release\bundle
 
 ## GitHub Release
 
-- Upload the generated `.msi` and/or `.exe` installer.
-- Include the current `CHANGELOG.md` notes.
-- Mention that CodexMaMi stores user data locally and masks secrets in the UI.
-- If you are publishing source only for now, say clearly that Windows installer artifacts are not included in that release yet.
+The repository includes `.github/workflows/windows-release.yml`.
+
+The workflow can be started in two ways:
+
+1. Push a version tag:
+
+```powershell
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+2. Or open GitHub, go to `Actions` -> `Windows Release` -> `Run workflow`.
+
+The workflow builds on `windows-latest`, runs tests, builds the Tauri installer, and creates a draft GitHub Release. Review the draft release before publishing it.
+
+Release notes should include:
+
+- The current `CHANGELOG.md` notes.
+- A reminder that CodexMaMi stores user data locally.
+- A reminder that secrets are masked in the UI but users should not publish local app data.
+
+Important: the current Tauri package skeleton still needs a full end-to-end installer verification. Build artifacts should remain draft releases until the installed app has been tested on a clean Windows machine.
