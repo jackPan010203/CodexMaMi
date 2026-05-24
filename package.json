@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "main": "desktop/electron-main.cjs",
   "description": "A local-first Codex companion for accounts, sessions, providers, MCP and backups.",
   "scripts": {
     "start": "node server.mjs",
     "dev": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/start-dev.ps1",
+    "desktop": "electron .",
+    "icons": "node scripts/generate-icon.mjs",
+    "electron:dist:win": "node scripts/generate-icon.mjs && electron-builder --win nsis --x64 --publish never",
     "smoke:ui": "node scripts/smoke-ui.mjs",
     "release:check": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/check-release-env.ps1",
     "tauri:dev": "tauri dev",
@@ -15,10 +19,54 @@
     "tauri": "tauri"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "^2.0.0"
+    "@tauri-apps/cli": "^2.0.0",
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
   },
   "engines": {
     "node": ">=20"
   },
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "build": {
+    "appId": "com.codexmami.app",
+    "productName": "CodexMaMi",
+    "copyright": "Copyright (c) 2026 CodexMaMi contributors",
+    "asar": false,
+    "directories": {
+      "output": "dist",
+      "buildResources": "resources"
+    },
+    "files": [
+      "desktop/**/*",
+      "public/**/*",
+      "resources/**/*",
+      "server.mjs",
+      "package.json",
+      "README.md",
+      "PRIVACY.md",
+      "NOTICE",
+      "LICENSE"
+    ],
+    "win": {
+      "icon": "resources/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "CodexMaMi-Setup-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "CodexMaMi",
+      "deleteAppDataOnUninstall": false
+    }
+  }
 }

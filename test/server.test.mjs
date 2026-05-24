@@ -70,6 +70,7 @@ test("provider route preview and apply writes managed block", async () => {
     });
     assert.match(preview.diff, /CODEXMAMI ROUTING/);
     assert.match(preview.diff, /gpt-route/);
+    assert.match(preview.diff, new RegExp(`127\\.0\\.0\\.1:${port}`));
 
     await fetchJson(`http://127.0.0.1:${port}/api/providers/${created.provider.id}/apply-route`, {
       method: "POST",
@@ -294,7 +295,7 @@ test("account status refresh and release environment check are available", async
     const environment = await fetchJson(`http://127.0.0.1:${port}/api/release/environment`);
     assert.ok(Array.isArray(environment.checks));
     assert.ok(environment.checks.some((item) => item.name === "node"));
-    assert.ok(environment.checks.some((item) => item.name === "Tauri config"));
+    assert.ok(environment.checks.some((item) => item.name === "Electron Builder config"));
   });
 });
 

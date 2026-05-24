@@ -5,6 +5,11 @@ on:
     tags:
       - "v*"
   workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version, for example 0.1.0"
+        required: true
+        default: "0.1.0"
 
 permissions:
   contents: write
@@ -23,26 +28,51 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Setup Rust
-        uses: dtolnay/rust-toolchain@stable
-
       - name: Install frontend dependencies
         run: npm install
 
       - name: Run tests
         run: npm test
 
-      - name: Build Tauri installer and create release
-        uses: tauri-apps/tauri-action@v0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Check JavaScript entrypoints
+        run: |
+          node --check server.mjs
+          node --check public/app.js
+          node --check desktop/electron-main.cjs
+          node --check scripts/generate-icon.mjs
+
+      - name: Build Windows installer
+        run: npm run electron:dist:win
+
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
         with:
-          args: "--target x86_64-pc-windows-msvc"
-          tagName: "v__VERSION__"
-          releaseName: "CodexMaMi v__VERSION__"
-          releaseBody: |
+          name: CodexMaMi-Windows-Installer
+          path: dist/CodexMaMi-Setup-*.exe
+          if-no-files-found: error
+
+      - name: Resolve release tag
+        shell: pwsh
+        run: |
+          if ("${{ github.event_name }}" -eq "workflow_dispatch") {
+            $tag = "${{ github.event.inputs.version }}"
+            if (-not $tag.StartsWith("v")) {
+              $tag = "v$tag"
+            }
+          } else {
+            $tag = "${{ github.ref_name }}"
+          }
+          "RELEASE_TAG=$tag" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+      - name: Create draft GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ env.RELEASE_TAG }}
+          name: CodexMaMi ${{ env.RELEASE_TAG }}
+          draft: true
+          prerelease: false
+          files: dist/CodexMaMi-Setup-*.exe
+          body: |
             CodexMaMi Windows installer build.
 
             This app is local-first. Please review README.md and PRIVACY.md before use.
-          releaseDraft: true
-          prerelease: false

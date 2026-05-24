@@ -27,16 +27,28 @@ This repository is currently an independent implementation prepared for the AiMa
 - Saves local UI preferences such as the preferred start page and auto refresh interval.
 - Shows a local release status card so you can track whether the next public version number is ahead of the current build.
 - Can query GitHub `releases/latest` for a configured repository and show the fetched version/notes in the settings page.
-- Shows in-app Windows build environment readiness for Node, npm, Rust, Cargo, and Tauri config presence.
+- Shows in-app Windows build environment readiness for Node, npm, Electron packaging config, icon generation, and installer artifacts.
 - Lets saved account profiles refresh a local status summary and show quota placeholders in the account list.
 
 See [FEATURE_MATRIX.md](FEATURE_MATRIX.md) for a screenshot-based comparison with the visible AiMaMi feature set.
 
 ## Packaging Status
 
-The repository includes a Tauri packaging skeleton under `src-tauri/`, plus a release checklist in [RELEASE.md](RELEASE.md). A real Windows installer still requires working `npm` and Rust/Cargo on the build machine. Run `npm run release:check` or the PowerShell command in [RELEASE.md](RELEASE.md) to see what is missing on the current computer.
+The repository includes an Electron desktop wrapper under `desktop/`, a Windows installer workflow in `.github/workflows/windows-release.yml`, and a release checklist in [RELEASE.md](RELEASE.md). A real Windows installer requires working `npm` on the build machine. Run `npm run release:check` or the PowerShell command in [RELEASE.md](RELEASE.md) to see what is missing on the current computer.
 
 Before tagging a public version, run `scripts\sync-version.ps1` so the version stays aligned across `package.json`, `src-tauri/tauri.conf.json`, and `src-tauri/Cargo.toml`.
+
+To build the Windows installer locally after `npm install`:
+
+```powershell
+npm run electron:dist:win
+```
+
+The installer will be written to:
+
+```text
+dist
+```
 
 ## Run Locally
 
@@ -76,9 +88,8 @@ The normal `node server.mjs` command stores data in `%USERPROFILE%\.codexmami`.
 ## Current Environment Notes
 
 - `npm` is present on this machine but currently fails because its global CLI path is broken.
-- Rust/Cargo is not installed, so Tauri packaging cannot be verified yet.
 - GitHub import of `borawong/AiMaMi` was attempted but blocked by the sandbox approval service returning `503 Service Unavailable`.
-- The current implementation is therefore a working local-first CodexMaMi baseline, ready for later AiMaMi upstream import and Tauri migration.
+- The current implementation is therefore a working local-first CodexMaMi baseline, ready for later AiMaMi upstream import and deeper native integration.
 
 ## Data Locations
 

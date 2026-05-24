@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">CodexMaMi icon</title>
+  <desc id="desc">A calm geometric CodexMaMi app icon.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#6D6AF2"/>
+      <stop offset="55%" stop-color="#1EBB9B"/>
+      <stop offset="100%" stop-color="#74C7F0"/>
+    </linearGradient>
+  </defs>
+  <rect x="18" y="18" width="220" height="220" rx="54" fill="url(#bg)"/>
+  <path d="M72 91h46c24 0 43 19 43 43v31" fill="none" stroke="#0B141C" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+  <path d="M184 165h-46c-24 0-43-19-43-43V91" fill="none" stroke="#0B141C" stroke-linecap="round" stroke-linejoin="round" stroke-width="20"/>
+  <circle cx="96" cy="133" r="12" fill="#0B141C"/>
+  <circle cx="160" cy="133" r="12" fill="#0B141C"/>
+</svg>

@@ -21,7 +21,8 @@ const exportsDir = path.join(appHome, "exports");
 const skillsDir = path.join(codexHome, "skills");
 const skillBackupsDir = path.join(appHome, "skill-backups");
 const releasesMetaPath = path.join(appHome, "release-channel.json");
-const releaseArtifactsDir = path.join(__dirname, "src-tauri", "target", "release", "bundle");
+const releaseArtifactsDir = path.join(__dirname, "dist");
+const legacyTauriArtifactsDir = path.join(__dirname, "src-tauri", "target", "release", "bundle");
 const execFileAsync = promisify(execFile);
 const allowedViews = new Set(["dashboard", "accounts", "sessions", "providers", "mcp", "skills", "backups", "maintenance", "settings"]);
 const allowedAccountLifecycles = new Set(["active", "paused", "expired", "unknown"]);
@@ -45,6 +46,7 @@ const packageMeta = (() => {
     return {};
   }
 })();
+let activeServerOrigin = `http://127.0.0.1:${process.env.PORT || "4173"}`;
 
 const defaultData = {
   version: 1,
@@ -522,7 +524,7 @@ function accountUsageInfo(account) {
 
 function renderRouteConfig(currentRaw, provider) {
   const cleaned = removeManagedRoutingBlock(currentRaw);
-  const proxyBase = `http://127.0.0.1:${process.env.PORT || "4173"}/proxy/${provider.id}/v1`;
+  const proxyBase = `${activeServerOrigin}/proxy/${provider.id}/v1`;
   const block = [
     "",
     "# BEGIN CODEXMAMI ROUTING",
@@ -1217,13 +1219,21 @@ async function runReleaseEnvironmentCheck() {
   const checks = [];
   const nodeCheck = await checkCommandVersion("node");
   const npmCheck = await checkCommandVersion("npm");
-  const rustcCheck = await checkCommandVersion("rustc");
-  const cargoCheck = await checkCommandVersion("cargo");
-  checks.push(nodeCheck, npmCheck, rustcCheck, cargoCheck);
+  checks.push(nodeCheck, npmCheck);
   checks.push({
-    name: "Tauri config",
-    ok: await fileExists(path.join(__dirname, "src-tauri", "tauri.conf.json")),
-    detail: path.join(__dirname, "src-tauri", "tauri.conf.json")
+    name: "Electron desktop entry",
+    ok: await fileExists(path.join(__dirname, "desktop", "electron-main.cjs")),
+    detail: path.join(__dirname, "desktop", "electron-main.cjs")
+  });
+  checks.push({
+    name: "Electron Builder config",
+    ok: Boolean(packageMeta.build?.appId && packageMeta.build?.win),
+    detail: packageMeta.build?.appId || "Missing package.json build config"
+  });
+  checks.push({
+    name: "Windows icon generator",
+    ok: await fileExists(path.join(__dirname, "scripts", "generate-icon.mjs")),
+    detail: path.join(__dirname, "scripts", "generate-icon.mjs")
   });
   const artifacts = await inspectReleaseArtifacts();
   checks.push({
@@ -1296,6 +1306,7 @@ async function fetchGithubRelease(preferences) {
 async function inspectReleaseArtifacts() {
   const artifacts = [];
   await collectReleaseArtifacts(releaseArtifactsDir, artifacts);
+  await collectReleaseArtifacts(legacyTauriArtifactsDir, artifacts);
   artifacts.sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
   return {
     root: releaseArtifactsDir,
@@ -1585,6 +1596,7 @@ async function handleApi(req, res, url) {
       app: "CodexMaMi",
       version: currentVersion(),
       paths: { codexHome, appHome, configPath, releaseArtifactsDir },
+      serverOrigin: activeServerOrigin,
       configExists: config.exists,
       accounts: data.accounts.length,
       providers: data.providers.length
@@ -1649,6 +1661,7 @@ async function handleApi(req, res, url) {
         skillsDir,
         skillBackupsDir,
         releaseArtifactsDir,
+        legacyTauriArtifactsDir,
         releasesMetaPath
       }
     });
@@ -2218,6 +2231,12 @@ export async function startServer(options = {}) {
     };
     const onListening = () => {
       server.off("error", onError);
+      const address = server.address();
+      if (address && typeof address === "object") {
+        activeServerOrigin = `http://${address.address === "::" ? "127.0.0.1" : address.address}:${address.port}`;
+      } else {
+        activeServerOrigin = `http://${host}:${port}`;
+      }
       resolve();
     };
     server.once("error", onError);

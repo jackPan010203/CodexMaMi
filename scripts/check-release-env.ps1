@@ -54,12 +54,38 @@ Write-Host "CodexMaMi release environment check"
 Write-Host ""
 Test-Command node
 Test-Command npm
-Test-Command rustc
-Test-Command cargo
 
 Write-Host ""
-if (Test-Path "src-tauri\tauri.conf.json") {
-  Write-Host "[ok] Tauri config found"
+if (Test-Path "desktop\electron-main.cjs") {
+  Write-Host "[ok] Electron desktop entry found"
 } else {
-  Write-Host "[missing] src-tauri\tauri.conf.json"
+  Write-Host "[missing] desktop\electron-main.cjs"
+}
+
+if (Test-Path "scripts\generate-icon.mjs") {
+  Write-Host "[ok] Windows icon generator found"
+} else {
+  Write-Host "[missing] scripts\generate-icon.mjs"
+}
+
+try {
+  $package = Get-Content "package.json" -Raw | ConvertFrom-Json
+  if ($package.build.appId -and $package.build.win) {
+    Write-Host "[ok] Electron Builder config found: $($package.build.appId)"
+  } else {
+    Write-Host "[missing] package.json build config"
+  }
+  if ($package.devDependencies.electron -and $package.devDependencies."electron-builder") {
+    Write-Host "[ok] Electron packaging dependencies listed"
+  } else {
+    Write-Host "[missing] electron / electron-builder devDependencies"
+  }
+} catch {
+  Write-Host "[warn] package.json could not be parsed: $($_.Exception.Message)"
+}
+
+if (Test-Path "resources\icon.ico") {
+  Write-Host "[ok] Windows icon found"
+} else {
+  Write-Host "[warn] resources\icon.ico not found; run npm run icons"
 }
